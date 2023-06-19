@@ -1,8 +1,8 @@
 {
-    "name": "InputSystem",
+    "name": "PlayerInput",
     "maps": [
         {
-            "name": "Player",
+            "name": "PlayerControlls",
             "id": "f62a4b92-ef5e-4175-8f4c-c9075429d32c",
             "actions": [
                 {
@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Strike",
+                    "name": "Slash",
                     "type": "Button",
                     "id": "797f544b-2b52-4f4f-aee1-8027bdfeb58f",
                     "expectedControlType": "Button",
@@ -145,10 +145,10 @@
                 {
                     "name": "",
                     "id": "b40f3040-d3b1-4720-b298-e6ed140ec271",
-                    "path": "<Joystick>/stick",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad;KeyboardMouse",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -166,6 +166,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0a7cd267-289c-418b-bdd1-a8b3c7d7add4",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dc65b89f-9bd3-43fb-92af-d0d87ba5faa4",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
@@ -177,12 +188,34 @@
                 },
                 {
                     "name": "",
+                    "id": "b3449124-c8b2-4214-907c-329dfcd9f0ae",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1eb61fb5-a2cd-43e6-b274-503b968f55fd",
                     "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Strike",
+                    "action": "Slash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "261f97d6-9b25-4a6b-9387-fd7e68f17e2d",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Slash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
