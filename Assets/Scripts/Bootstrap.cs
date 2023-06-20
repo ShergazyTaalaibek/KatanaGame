@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
+    [SerializeField] private PlayerStateMachine _stateMachine;
     [SerializeField] private MovePlayer _movePlayer;
-    [SerializeField] private LookAtTarget _lookAtTarget;
 
     private void Awake()
     {
-        _movePlayer.Initialize();
-        _lookAtTarget.Initialize();
+        _stateMachine.Initialize();
+        _movePlayer?.Initialize();
     }
 }

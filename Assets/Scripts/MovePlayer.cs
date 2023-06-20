@@ -15,8 +15,7 @@ public class MovePlayer : MonoBehaviour
     private Transform _cameraTransform;
 
     [Header("States")]
-    private BaseState baseState;
-    public DeadState deadState = new DeadState();
+    private BaseState _currentState;
 
     private PlayerInput playerInput;
     private Vector2 _currentMovementInput;
@@ -29,11 +28,6 @@ public class MovePlayer : MonoBehaviour
 
     public void Initialize()
     {
-        controller = GetComponent<CharacterController>();
-        _cameraTransform = Camera.main.transform;
-
-        animator = GetComponent<Animator>();
-
         playerInput = new PlayerInput();
         playerInput.PlayerControlls.Move.started += OnMovementInput;
         playerInput.PlayerControlls.Move.canceled += OnMovementInput;
@@ -42,34 +36,28 @@ public class MovePlayer : MonoBehaviour
         playerInput.PlayerControlls.Jump.canceled += OnJumpInput;
         playerInput.PlayerControlls.Dash.started += OnDashInput;
         playerInput.PlayerControlls.Dash.canceled += OnDashInput;
+
+        controller = GetComponent<CharacterController>();
+        _cameraTransform = Camera.main.transform;
+
+        animator = GetComponent<Animator>();
     }
 
-    private void HandleAnimation()
-    {
-        bool _isWalking = animator.GetBool("isWalking");
-        bool _isDashing = animator.GetBool("isDashing");
+    //private void HandleAnimation()
+    //{
+    //    bool _isWalking = animator.GetBool("isWalking");
+    //    bool _isDashing = animator.GetBool("isDashing");
 
-        if (_isMovementPressed && !_isWalking)
-        {
-            animator.SetBool("isWalking", true);
-        }
+    //    if (_isMovementPressed && !_isWalking)
+    //    {
+    //        animator.SetBool("isWalking", true);
+    //    }
 
-        else if (!_isMovementPressed && _isWalking)
-        {
-            animator.SetBool("isWalking", false);
-        }
-    }
-
-    private void OnMovementInput(InputAction.CallbackContext context)
-    {
-        _currentMovementInput = context.ReadValue<Vector2>();
-        _currentMovement.x = _currentMovementInput.x;
-        _currentMovement.z = _currentMovementInput.y;
-        _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
-    }
-
-    private void OnJumpInput(InputAction.CallbackContext context) =>_isJumping = context.ReadValueAsButton();
-    private void OnDashInput(InputAction.CallbackContext context) => _isDashing = context.ReadValueAsButton();
+    //    else if (!_isMovementPressed && _isWalking)
+    //    {
+    //        animator.SetBool("isWalking", false);
+    //    }
+    //}
 
     private void Update()
     {
@@ -98,6 +86,16 @@ public class MovePlayer : MonoBehaviour
         else
             playerVelocity.y += gravityValue * Time.deltaTime;
     }
+
+    private void OnMovementInput(InputAction.CallbackContext context)
+    {
+        _currentMovementInput = context.ReadValue<Vector2>();
+        _currentMovement.x = _currentMovementInput.x;
+        _currentMovement.z = _currentMovementInput.y;
+        _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
+    }
+    private void OnJumpInput(InputAction.CallbackContext context) =>_isJumping = context.ReadValueAsButton();
+    private void OnDashInput(InputAction.CallbackContext context) => _isDashing = context.ReadValueAsButton();
 
     private void OnEnable() => playerInput.PlayerControlls.Enable();
     private void OnDisable() => playerInput.PlayerControlls.Disable();
