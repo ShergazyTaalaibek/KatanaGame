@@ -501,8 +501,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.07444946, y: -9.227698e-20, z: 6.889088e-21, w: 0.9972248}
-  m_LocalPosition: {x: 1.8301603e-18, y: 4.484857, z: -16.699146}
+  m_LocalRotation: {x: 0.14534947, y: 0.0000000093824895, z: -0.0000000013783777,
+    w: 0.9893804}
+  m_LocalPosition: {x: -0.00000018165008, y: 6.876118, z: -16.38747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1169,8 +1170,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838837113}
-  m_LocalRotation: {x: 0.07444946, y: -9.227698e-20, z: 6.889088e-21, w: 0.9972248}
-  m_LocalPosition: {x: 1.8301603e-18, y: 4.484857, z: -16.699146}
+  m_LocalRotation: {x: 0.14534947, y: 0.0000000093824895, z: -0.0000000013783777,
+    w: 0.9893804}
+  m_LocalPosition: {x: -0.00000018165008, y: 6.876118, z: -16.38747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2311,7 +2313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1901387711}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.81}
+  m_LocalPosition: {x: 0, y: 1, z: -6.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2349,10 +2351,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ec77e37789d467d96af9a834350843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gravity: -9.8
+  _groundedGravity: -0.05
+  _maxJumpHeight: 4
+  _maxJumpTime: 3
+  _aimTarget: {fileID: 2046151691}
   _playerSpeed: 2
-  _jumpHeight: 1
-  _gravityValue: -9.81
-  _target: {fileID: 2046151691}
 --- !u!1 &2046151690
 GameObject:
   m_ObjectHideFlags: 0

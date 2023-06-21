@@ -1,13 +1,17 @@
 using UnityEngine;
 
-public class IdleState : BaseState
+public class DeadState : BaseState
 {
-    public IdleState(PlayerStateMachine currentContext, StateFactory stateFactory)
-        : base(currentContext, stateFactory) { }
+    public DeadState(PlayerStateMachine currentContext, StateFactory stateFactory)
+        : base(currentContext, stateFactory)
+    {
+        IsRootState = true;
+        InitializeSubState();
+    }
 
     public override void EnterState()
     {
-
+        Debug.Log("Dead");
     }
 
     public override void UpdateState()
