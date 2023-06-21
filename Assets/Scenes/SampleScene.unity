@@ -2349,11 +2349,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ec77e37789d467d96af9a834350843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxJumpHeight: 3.07
+  _maxJumpHeight: 3
   _maxJumpTime: 1
   _movingSpeed: 2
-  _isDashing: 0
-  _aimTarget: {fileID: 0}
+  _canDash: 0
+  _dashSpeed: 20
+  _dashingTime: 0.1
+  _dashCooldown: 1
 --- !u!1 &2046151690
 GameObject:
   m_ObjectHideFlags: 0

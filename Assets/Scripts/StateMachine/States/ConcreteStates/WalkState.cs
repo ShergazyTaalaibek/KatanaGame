@@ -24,7 +24,7 @@ public class WalkState : BaseState
         {
             SwitchState(Factory.Idle());
         }
-        else if (Ctx.IsDashing)
+        else if (Ctx.IsDashPressed && Ctx.CanDash)
         {
             SwitchState(Factory.Dash());
         }

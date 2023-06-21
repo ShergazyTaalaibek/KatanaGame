@@ -39,7 +39,7 @@ public class GroundedState : BaseState
             SetSubState(Factory.Walk());
             Debug.Log("InitWalkState");
         }
-        else if (Ctx.IsMovementPressed && Ctx.IsDashing)
+        else if (Ctx.IsMovementPressed && Ctx.IsDashPressed && Ctx.CanDash)
         {
             SetSubState(Factory.Dash());
             Debug.Log("InitDashState");

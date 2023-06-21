@@ -12,6 +12,7 @@ public class DashState : BaseState
     {
         Debug.Log("Dash");
         timer = 0;
+        Ctx.DashCooldownTimer = 0;
     }
 
     public override void UpdateState()

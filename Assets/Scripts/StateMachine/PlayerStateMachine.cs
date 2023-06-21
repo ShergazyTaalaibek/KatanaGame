@@ -11,7 +11,7 @@ public class PlayerStateMachine : MonoBehaviour
     private bool _isJumping = false;
     private float _initialJumpVelocity;
     [SerializeField, Range(1f, 5f)] private float _maxJumpHeight = 1.0f;
-    [SerializeField, Range(.1f, 3f)] private float _maxJumpTime = .5f;
+    [SerializeField, Range(.1f, 2f)] private float _maxJumpTime = .5f;
 
     // moving
     private bool _isMovementPressed = false;
@@ -22,9 +22,12 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float _movingSpeed = 2.0f;
 
     // dash
-    [SerializeField] private bool _isDashing = false;
-    [SerializeField, Range(10f, 100f)] private float _dashSpeed = 10f;
-    [SerializeField, Range(0.01f, 2f)] private float _dashingTime = 1f;
+    private bool _isDashPressed = false;
+    [SerializeField] private bool _canDash = false;
+    [SerializeField, Range(5f, 100f)] private float _dashSpeed = 10f;
+    [SerializeField, Range(0f, 1f)] private float _dashingTime = 1f;
+    [SerializeField, Range(0f, 10f)] private float _dashCooldown = 1f;
+    private float _dashCooldownTimer = 0;
 
     // others
     private CharacterController _controller;
@@ -57,9 +60,11 @@ public class PlayerStateMachine : MonoBehaviour
     public float CurrentMovementInputY { get { return _currentMovementInput.y; } }
     public Vector3 AppliedMoveVelocity { get { return _appliedMoveVelocity; } set { _appliedMoveVelocity = value; } }
     // Dash
-    public bool IsDashing { get { return _isDashing; } }
-    public float DashingTime { get { return _dashingTime; } }
+    public bool IsDashPressed { get { return _isDashPressed; } }
+    public bool CanDash { get { return _canDash; } }
     public float DashSpeed { get { return _dashSpeed; } }
+    public float DashingTime { get { return _dashingTime; } }
+    public float DashCooldownTimer { set { _dashCooldownTimer = value; } }
 
     // Target
     public Transform CameraTransform { get { return _cameraTransform; } }
@@ -88,8 +93,10 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.PlayerControlls.Move.started += OnMovementInput;
         _playerInput.PlayerControlls.Move.canceled += OnMovementInput;
         _playerInput.PlayerControlls.Move.performed += OnMovementInput;
+
         _playerInput.PlayerControlls.Jump.started += OnJumpInput;
         _playerInput.PlayerControlls.Jump.canceled += OnJumpInput;
+
         _playerInput.PlayerControlls.Dash.started += OnDashInput;
         _playerInput.PlayerControlls.Dash.canceled += OnDashInput;
     }
@@ -99,6 +106,16 @@ public class PlayerStateMachine : MonoBehaviour
         _currentState.UpdateStates();
         ApplyVelocityY();
         SetupJumpVariables(); // <-- must be disabled/commented
+        CoolDownDash();
+    }
+
+    void CoolDownDash()
+    {
+        _dashCooldownTimer += Time.deltaTime;
+        if (_dashCooldownTimer >= _dashCooldown)
+            _canDash = true;
+        else
+            _canDash = false;
     }
 
     void SetupJumpVariables()
@@ -118,7 +135,7 @@ public class PlayerStateMachine : MonoBehaviour
         _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
     }
     private void OnJumpInput(InputAction.CallbackContext context) => _isJumping = context.ReadValueAsButton();
-    private void OnDashInput(InputAction.CallbackContext context) => _isDashing = context.ReadValueAsButton();
+    private void OnDashInput(InputAction.CallbackContext context) => _isDashPressed = context.ReadValueAsButton();
 
     private void OnEnable() => _playerInput.PlayerControlls.Enable();
     private void OnDisable() => _playerInput.PlayerControlls.Disable();
