@@ -12,6 +12,8 @@ public class GroundedState : BaseState
     public override void EnterState()
     {
         Ctx.PlayerVelocityY = Ctx.GroundedGravity;
+        Ctx.AppliedMoveVelocity = Vector3.zero;
+        Debug.Log("Grounded");
     }
 
     public override void UpdateState()
@@ -32,17 +34,20 @@ public class GroundedState : BaseState
 
     public override void InitializeSubState()
     {
-        if (Ctx.IsMovementPressed && !Ctx.IsDashing)
+        if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Walk());
+            Debug.Log("InitWalkState");
         }
         else if (Ctx.IsMovementPressed && Ctx.IsDashing)
         {
             SetSubState(Factory.Dash());
+            Debug.Log("InitDashState");
         }
         else
         {
             SetSubState(Factory.Idle());
+            Debug.Log("InitIdleState");
         }
     }
 

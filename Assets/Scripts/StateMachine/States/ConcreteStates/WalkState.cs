@@ -14,7 +14,6 @@ public class WalkState : BaseState
     {
         CheckSwitchState();
         HandleMovement();
-        Debug.Log("Walk");
     }
 
     public override void ExitState() { }
@@ -25,7 +24,7 @@ public class WalkState : BaseState
         {
             SwitchState(Factory.Idle());
         }
-        if (Ctx.IsDashing)
+        else if (Ctx.IsDashing)
         {
             SwitchState(Factory.Dash());
         }
@@ -37,6 +36,7 @@ public class WalkState : BaseState
         move = move.x * Ctx.CameraTransform.right.normalized + move.z * Ctx.CameraTransform.forward.normalized;
         move.y = 0f;
         Ctx.Controller.Move(move * Time.deltaTime * Ctx.MoveingSpeed);
+        Ctx.AppliedMoveVelocity = move;
     }
 
     public override void InitializeSubState() { }

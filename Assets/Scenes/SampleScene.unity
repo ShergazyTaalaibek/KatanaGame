@@ -501,9 +501,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.14534947, y: 0.0000000093824895, z: -0.0000000013783777,
-    w: 0.9893804}
-  m_LocalPosition: {x: -0.00000018165008, y: 6.876118, z: -16.38747}
+  m_LocalRotation: {x: 0.14534944, y: -0.0000000055341465, z: 8.1301904e-10, w: 0.9893804}
+  m_LocalPosition: {x: 0.000000107144096, y: 6.876118, z: -16.38747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1170,9 +1169,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838837113}
-  m_LocalRotation: {x: 0.14534947, y: 0.0000000093824895, z: -0.0000000013783777,
-    w: 0.9893804}
-  m_LocalPosition: {x: -0.00000018165008, y: 6.876118, z: -16.38747}
+  m_LocalRotation: {x: 0.14534944, y: -0.0000000055341465, z: 8.1301904e-10, w: 0.9893804}
+  m_LocalPosition: {x: 0.000000107144096, y: 6.876118, z: -16.38747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2351,12 +2349,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ec77e37789d467d96af9a834350843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gravity: -9.8
-  _groundedGravity: -0.05
-  _maxJumpHeight: 4
-  _maxJumpTime: 3
-  _aimTarget: {fileID: 2046151691}
-  _playerSpeed: 2
+  _maxJumpHeight: 3.07
+  _maxJumpTime: 1
+  _movingSpeed: 2
+  _isDashing: 0
+  _aimTarget: {fileID: 0}
 --- !u!1 &2046151690
 GameObject:
   m_ObjectHideFlags: 0

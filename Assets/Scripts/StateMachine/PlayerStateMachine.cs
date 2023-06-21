@@ -4,17 +4,29 @@ using UnityEngine.InputSystem;
 public class PlayerStateMachine : MonoBehaviour
 {
     // gravity
-    [SerializeField] private float _gravity = -9.8f;
-    [SerializeField] private float _groundedGravity = -.05f;
+    private float _gravity = -9.8f;
+    private float _groundedGravity = -.05f;
 
     // jumpin
-    private float _initialJumpVelocity;
-    [SerializeField] private float _maxJumpHeight = 1.0f;
-    [SerializeField] private float _maxJumpTime = .5f;
     private bool _isJumping = false;
+    private float _initialJumpVelocity;
+    [SerializeField, Range(1f, 5f)] private float _maxJumpHeight = 1.0f;
+    [SerializeField, Range(.1f, 3f)] private float _maxJumpTime = .5f;
+
+    // moving
+    private bool _isMovementPressed = false;
+    private PlayerInput _playerInput;
+    private Vector2 _currentMovementInput;
+    private Vector3 _currentMovement;
+    private Vector3 _appliedMoveVelocity;
+    [SerializeField] private float _movingSpeed = 2.0f;
+
+    // dash
+    [SerializeField] private bool _isDashing = false;
+    [SerializeField, Range(10f, 100f)] private float _dashSpeed = 10f;
+    [SerializeField, Range(0.01f, 2f)] private float _dashingTime = 1f;
 
     // others
-    [SerializeField] private Transform _aimTarget;
     private CharacterController _controller;
     private Vector3 _playerVelocity;
     private Transform _cameraTransform;
@@ -24,21 +36,12 @@ public class PlayerStateMachine : MonoBehaviour
     private BaseState _currentState;
     private StateFactory _states;
 
-    // moving
-    private PlayerInput _playerInput;
-    private Vector2 _currentMovementInput;
-    private Vector3 _currentMovement;
-    [SerializeField] private float _movingSpeed = 2.0f;
-
-
-    private bool _isMovementPressed;
-    private bool _isDashing;
 
     // Animation
     private Animator _animator;
 
     // Getters & setters
-    // jump
+    // Jump
     public bool IsJumping { get { return _isJumping; } }
     public float Gravity { get { return _gravity; } }
     public float GroundedGravity { get { return _groundedGravity; } }
@@ -52,12 +55,15 @@ public class PlayerStateMachine : MonoBehaviour
     public float CurrentMovementZ { get { return _currentMovement.z; } }
     public float CurrentMovementInputX { get { return _currentMovementInput.x; } }
     public float CurrentMovementInputY { get { return _currentMovementInput.y; } }
+    public Vector3 AppliedMoveVelocity { get { return _appliedMoveVelocity; } set { _appliedMoveVelocity = value; } }
+    // Dash
+    public bool IsDashing { get { return _isDashing; } }
+    public float DashingTime { get { return _dashingTime; } }
+    public float DashSpeed { get { return _dashSpeed; } }
 
     // Target
     public Transform CameraTransform { get { return _cameraTransform; } }
-
     public CharacterController Controller { get { return _controller; } }
-    public bool IsDashing { get { return _isDashing; } }
 
     public Animator Animator { get { return _animator; } }
     public BaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
@@ -70,7 +76,6 @@ public class PlayerStateMachine : MonoBehaviour
         _cameraTransform = Camera.main.transform;
         _playerTransform = GetComponent<Transform>();
         _playerVelocity = new Vector3(0, _gravity, 0);
-
         _animator = GetComponent<Animator>();
 
         // Setup state
@@ -93,6 +98,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _currentState.UpdateStates();
         ApplyVelocityY();
+        SetupJumpVariables(); // <-- must be disabled/commented
     }
 
     void SetupJumpVariables()

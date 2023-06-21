@@ -12,7 +12,7 @@ public class IdleState : BaseState
 
     public override void UpdateState()
     {
-
+        CheckSwitchState();
     }
 
     public override void ExitState()
