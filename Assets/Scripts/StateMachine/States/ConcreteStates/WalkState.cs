@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class WalkState : BaseState
 {
-    public WalkState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public WalkState(PersonStateMachine currentContext, StateFactory stateFactory)
         : base(currentContext, stateFactory) { }
 
     public override void EnterState()
     {
-        Debug.Log("Walk");
+
     }
 
     public override void UpdateState()

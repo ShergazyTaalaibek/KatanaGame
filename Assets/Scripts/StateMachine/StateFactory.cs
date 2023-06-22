@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class StateFactory
 {
-    PlayerStateMachine _context;
+    PersonStateMachine _context;
 
-    public StateFactory(PlayerStateMachine currentContext)
+    public StateFactory(PersonStateMachine currentContext)
     {
         _context = currentContext;
     }

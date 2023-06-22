@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class IdleState : BaseState
 {
-    public IdleState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public IdleState(PersonStateMachine currentContext, StateFactory stateFactory)
         : base(currentContext, stateFactory) { }
 
     public override void EnterState()
     {
-        Debug.Log("Idle");
+
     }
 
     public override void UpdateState()

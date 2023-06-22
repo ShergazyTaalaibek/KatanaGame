@@ -1,49 +1,46 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerStateMachine : MonoBehaviour
+public class PersonStateMachine : MonoBehaviour
 {
+    // --- Variables
+    protected bool _isPlayer = false;
     // gravity
     private float _gravity = -9.8f;
     private float _groundedGravity = -.05f;
-
     // jumpin
-    private bool _isJumping = false;
+    protected bool _isJumping = false;
     private float _initialJumpVelocity;
     [SerializeField, Range(1f, 5f)] private float _maxJumpHeight = 1.0f;
     [SerializeField, Range(.1f, 2f)] private float _maxJumpTime = .5f;
-
     // moving
-    private bool _isMovementPressed = false;
-    private PlayerInput _playerInput;
-    private Vector2 _currentMovementInput;
-    private Vector3 _currentMovement;
+    protected bool _isMovementPressed = false;
     private Vector3 _appliedMoveVelocity;
     [SerializeField] private float _movingSpeed = 2.0f;
-
-    // dash
-    private bool _isDashPressed = false;
-    [SerializeField] private bool _canDash = false;
-    [SerializeField, Range(5f, 100f)] private float _dashSpeed = 10f;
-    [SerializeField, Range(0f, 1f)] private float _dashingTime = 1f;
-    [SerializeField, Range(0f, 10f)] private float _dashCooldown = 1f;
-    private float _dashCooldownTimer = 0;
-
-    // others
     private CharacterController _controller;
     private Vector3 _playerVelocity;
+    // Input system
+    protected Vector2 _currentMovementInput;
+    protected Vector3 _currentMovement;
+    // dash
+    protected bool _isDashPressed = false;
+    protected bool _isDashing = false;
+    protected bool _canDash = false;
+    [SerializeField, Range(5f, 100f)] private float _dashSpeed = 10f;
+    [SerializeField, Range(0f, 1f)] private float _dashingTime = 1f;
+    // death
+    private bool _isDead = false;
+    // rotation
     private Transform _cameraTransform;
     private Transform _playerTransform;
-
     // State Machine
     private BaseState _currentState;
     private StateFactory _states;
-
-
     // Animation
     private Animator _animator;
 
-    // Getters & setters
+    // --- Getters & setters
+    public bool IsPlayer { get { return _isPlayer; } }
+    public BaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     // Jump
     public bool IsJumping { get { return _isJumping; } }
     public float Gravity { get { return _gravity; } }
@@ -61,19 +58,20 @@ public class PlayerStateMachine : MonoBehaviour
     public Vector3 AppliedMoveVelocity { get { return _appliedMoveVelocity; } set { _appliedMoveVelocity = value; } }
     // Dash
     public bool IsDashPressed { get { return _isDashPressed; } }
+    public bool IsDashing { get { return _isDashing; } set { _isDashing = value; } }
     public bool CanDash { get { return _canDash; } }
     public float DashSpeed { get { return _dashSpeed; } }
     public float DashingTime { get { return _dashingTime; } }
-    public float DashCooldownTimer { set { _dashCooldownTimer = value; } }
-
     // Target
     public Transform CameraTransform { get { return _cameraTransform; } }
     public CharacterController Controller { get { return _controller; } }
-
+    // Death
+    public bool Isdead { get { return _isDead; } set { _isDead = value; } }
+    // Animation
     public Animator Animator { get { return _animator; } }
-    public BaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
 
-    public void Initialize()
+    /// Init
+    public virtual void Initialize()
     {
         SetupJumpVariables();
 
@@ -82,23 +80,13 @@ public class PlayerStateMachine : MonoBehaviour
         _playerTransform = GetComponent<Transform>();
         _playerVelocity = new Vector3(0, _gravity, 0);
         _animator = GetComponent<Animator>();
+    }
 
-        // Setup state
+    public void SetupStateMachine()
+    {
         _states = new StateFactory(this);
         _currentState = _states.Grounded();
-        _currentState.EnterState(); 
-
-        // Set the player input callbacks
-        _playerInput = new PlayerInput();
-        _playerInput.PlayerControlls.Move.started += OnMovementInput;
-        _playerInput.PlayerControlls.Move.canceled += OnMovementInput;
-        _playerInput.PlayerControlls.Move.performed += OnMovementInput;
-
-        _playerInput.PlayerControlls.Jump.started += OnJumpInput;
-        _playerInput.PlayerControlls.Jump.canceled += OnJumpInput;
-
-        _playerInput.PlayerControlls.Dash.started += OnDashInput;
-        _playerInput.PlayerControlls.Dash.canceled += OnDashInput;
+        _currentState.EnterState();
     }
 
     private void Update()
@@ -106,19 +94,9 @@ public class PlayerStateMachine : MonoBehaviour
         _currentState.UpdateStates();
         ApplyVelocityY();
         SetupJumpVariables(); // <-- must be disabled/commented
-        CoolDownDash();
     }
 
-    void CoolDownDash()
-    {
-        _dashCooldownTimer += Time.deltaTime;
-        if (_dashCooldownTimer >= _dashCooldown)
-            _canDash = true;
-        else
-            _canDash = false;
-    }
-
-    void SetupJumpVariables()
+    protected void SetupJumpVariables()
     {
         float timeToApex = _maxJumpTime / 2;
         _gravity = (-2 * _maxJumpHeight) / Mathf.Pow(timeToApex, 2);
@@ -127,16 +105,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ApplyVelocityY() => _controller.Move(_playerVelocity * Time.deltaTime);
 
-    private void OnMovementInput(InputAction.CallbackContext context)
+    public void ApplyPersonRotation()
     {
-        _currentMovementInput = context.ReadValue<Vector2>();
-        _currentMovement.x = _currentMovementInput.x;
-        _currentMovement.z = _currentMovementInput.y;
-        _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
+        _playerTransform.rotation = Quaternion.Euler(0, _cameraTransform.rotation.eulerAngles.y, 0);
     }
-    private void OnJumpInput(InputAction.CallbackContext context) => _isJumping = context.ReadValueAsButton();
-    private void OnDashInput(InputAction.CallbackContext context) => _isDashPressed = context.ReadValueAsButton();
-
-    private void OnEnable() => _playerInput.PlayerControlls.Enable();
-    private void OnDisable() => _playerInput.PlayerControlls.Disable();
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SlashState : BaseState
 {
-    public SlashState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public SlashState(PersonStateMachine currentContext, StateFactory stateFactory)
        : base(currentContext, stateFactory) { }
 
     public override void EnterState()

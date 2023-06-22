@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class JumpState : BaseState
 {
-    public JumpState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public JumpState(PersonStateMachine currentContext, StateFactory stateFactory)
         : base(currentContext, stateFactory)
     {
         IsRootState = true;
@@ -12,7 +12,7 @@ public class JumpState : BaseState
     public override void EnterState()
     {
         HandleJump();
-        Debug.Log("Jump");
+        PlayerCtx.CurrentStamina -= PlayerCtx.StaminaReducer;
     }
 
     public override void UpdateState()
@@ -20,6 +20,7 @@ public class JumpState : BaseState
         CheckSwitchState();
         HandleGravity();
         HandleMovement();
+        Ctx.ApplyPersonRotation();
     }
 
     public override void ExitState() { }
@@ -29,6 +30,7 @@ public class JumpState : BaseState
         if (Ctx.Controller.isGrounded)
         {
             SwitchState(Factory.Grounded());
+            Ctx.IsDashing = false;
         }
     }
 
@@ -47,7 +49,14 @@ public class JumpState : BaseState
 
     void HandleMovement()
     {
-        Ctx.Controller.Move(Ctx.AppliedMoveVelocity * Time.deltaTime * Ctx.MoveingSpeed);
+        if (Ctx.IsDashing)
+        {
+            Ctx.Controller.Move(Ctx.AppliedMoveVelocity * Time.deltaTime * Ctx.MoveingSpeed * 3);
+        }
+        else
+        {
+            Ctx.Controller.Move(Ctx.AppliedMoveVelocity * Time.deltaTime * Ctx.MoveingSpeed);
+        }
     }
 
     void HandleGravity()

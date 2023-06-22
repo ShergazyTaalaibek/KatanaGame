@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FallState : BaseState
 {
-    public FallState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public FallState(PersonStateMachine currentContext, StateFactory stateFactory)
        : base(currentContext, stateFactory)
     {
         IsRootState = true;

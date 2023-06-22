@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
-    [SerializeField] private PlayerStateMachine _stateMachine;
-    [SerializeField] private MovePlayer _movePlayer;
+    [SerializeField] private PlayerPerson _playerPerson;
+    [SerializeField] private EnemyPerson _enemyPerson;
 
     private void Awake()
     {
-        _stateMachine.Initialize();
-        _movePlayer?.Initialize();
+        _playerPerson?.Initialize();
+        _enemyPerson?.Initialize();
     }
 }

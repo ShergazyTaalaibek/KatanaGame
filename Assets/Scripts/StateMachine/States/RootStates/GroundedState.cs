@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GroundedState : BaseState
 {
-    public GroundedState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public GroundedState(PersonStateMachine currentContext, StateFactory stateFactory)
         : base (currentContext, stateFactory)
     {
         IsRootState = true;
@@ -13,22 +13,32 @@ public class GroundedState : BaseState
     {
         Ctx.PlayerVelocityY = Ctx.GroundedGravity;
         Ctx.AppliedMoveVelocity = Vector3.zero;
-        Debug.Log("Grounded");
     }
 
     public override void UpdateState()
     {
         HandleGravity();
         CheckSwitchState();
+        Ctx.ApplyPersonRotation();
     }
 
     public override void ExitState() { }
 
     public override void CheckSwitchState()
     {
-        if (Ctx.IsJumping)
+        if (Ctx.IsPlayer)
         {
-            SwitchState(Factory.JumpState());
+            if (PlayerCtx.CurrentStamina >= PlayerCtx.StaminaReducer)
+            {
+                SwitchState(Factory.JumpState());
+            }
+        }
+        else
+        {
+            if (Ctx.IsJumping)
+            {
+                SwitchState(Factory.JumpState());
+            }
         }
     }
 
@@ -37,17 +47,14 @@ public class GroundedState : BaseState
         if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Walk());
-            Debug.Log("InitWalkState");
         }
         else if (Ctx.IsMovementPressed && Ctx.IsDashPressed && Ctx.CanDash)
         {
             SetSubState(Factory.Dash());
-            Debug.Log("InitDashState");
         }
         else
         {
             SetSubState(Factory.Idle());
-            Debug.Log("InitIdleState");
         }
     }
 

@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa4a4ed11b524bd69368bd237d7a742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stateMachine: {fileID: 1901387715}
-  _movePlayer: {fileID: 0}
+  _playerPerson: {fileID: 1901387716}
+  _enemyPerson: {fileID: 0}
 --- !u!4 &186189702
 Transform:
   m_ObjectHideFlags: 0
@@ -501,8 +501,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.14534944, y: -0.0000000055341465, z: 8.1301904e-10, w: 0.9893804}
-  m_LocalPosition: {x: 0.000000107144096, y: 6.876118, z: -16.38747}
+  m_LocalRotation: {x: 0.14534947, y: -0.000000009382491, z: 0.0000000013783781, w: 0.9893804}
+  m_LocalPosition: {x: 0.00000018165014, y: 6.876118, z: -16.38747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1169,8 +1169,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838837113}
-  m_LocalRotation: {x: 0.14534944, y: -0.0000000055341465, z: 8.1301904e-10, w: 0.9893804}
-  m_LocalPosition: {x: 0.000000107144096, y: 6.876118, z: -16.38747}
+  m_LocalRotation: {x: 0.14534947, y: -0.000000009382491, z: 0.0000000013783781, w: 0.9893804}
+  m_LocalPosition: {x: 0.00000018165014, y: 6.876118, z: -16.38747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2295,7 +2295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1901387712}
   - component: {fileID: 1901387714}
-  - component: {fileID: 1901387715}
+  - component: {fileID: 1901387716}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2337,7 +2337,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &1901387715
+--- !u!114 &1901387716
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2346,16 +2346,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1901387711}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6ec77e37789d467d96af9a834350843, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bd900c01bec544d687659765e33f5f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _maxJumpHeight: 3
   _maxJumpTime: 1
   _movingSpeed: 2
-  _canDash: 0
   _dashSpeed: 20
   _dashingTime: 0.1
-  _dashCooldown: 1
+  _maxStamina: 5
+  _staminaReducer: 2
+  _currentStamina: 0
+  _dashCooldown: 0.1
 --- !u!1 &2046151690
 GameObject:
   m_ObjectHideFlags: 0
