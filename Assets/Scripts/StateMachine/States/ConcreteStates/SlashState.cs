@@ -8,6 +8,7 @@ public class SlashState : BaseState
     public override void EnterState()
     {
         Debug.Log("Dead");
+        Ctx.ReduceStamina();
     }
 
     public override void UpdateState()

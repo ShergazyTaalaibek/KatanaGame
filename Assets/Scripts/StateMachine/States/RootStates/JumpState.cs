@@ -13,6 +13,7 @@ public class JumpState : BaseState
     {
         HandleJump();
         Debug.Log("Jump");
+        Ctx.ReduceStamina();
     }
 
     public override void UpdateState()
@@ -47,7 +48,14 @@ public class JumpState : BaseState
 
     void HandleMovement()
     {
-        Ctx.Controller.Move(Ctx.AppliedMoveVelocity * Time.deltaTime * Ctx.MoveingSpeed);
+        if (Ctx.IsDashing)
+        {
+            Ctx.Controller.Move(Ctx.AppliedMoveVelocity * Time.deltaTime * Ctx.MoveingSpeed * 3);
+        }
+        else
+        {
+            Ctx.Controller.Move(Ctx.AppliedMoveVelocity * Time.deltaTime * Ctx.MoveingSpeed);
+        }
     }
 
     void HandleGravity()

@@ -11,18 +11,24 @@ public class DashState : BaseState
     public override void EnterState()
     {
         Debug.Log("Dash");
+        Ctx.ReduceStamina();
         timer = 0;
         Ctx.DashCooldownTimer = 0;
+        Ctx.IsDashing = true;
+        Ctx.CanDash = false;
     }
 
     public override void UpdateState()
     {
-        if (timer >= Ctx.DashingTime)
+        if (timer >= Ctx.DashingTime || Ctx.IsJumping)
         {
             CheckSwitchState();
         }
-        HandleMovement();
-        timer += Time.deltaTime;
+        else
+        {
+            HandleMovement();
+            timer += Time.deltaTime;
+        }
     }
 
     public override void ExitState() { }
@@ -32,10 +38,12 @@ public class DashState : BaseState
         if (!Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Idle());
+            Ctx.IsDashing = false;
         }
         else
         {
             SwitchState(Factory.Walk());
+            Ctx.IsDashing = false;
         }
     }
 

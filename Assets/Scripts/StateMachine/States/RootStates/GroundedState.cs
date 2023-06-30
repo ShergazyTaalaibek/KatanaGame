@@ -26,7 +26,7 @@ public class GroundedState : BaseState
 
     public override void CheckSwitchState()
     {
-        if (Ctx.IsJumping)
+        if (Ctx.IsJumping && Ctx.CurrentStamina >= Ctx.StaminaReducer)
         {
             SwitchState(Factory.JumpState());
         }
@@ -39,7 +39,7 @@ public class GroundedState : BaseState
             SetSubState(Factory.Walk());
             Debug.Log("InitWalkState");
         }
-        else if (Ctx.IsMovementPressed && Ctx.IsDashPressed && Ctx.CanDash)
+        else if (Ctx.IsMovementPressed && Ctx.IsDashPressed && Ctx.CanDash && Ctx.CurrentStamina >= Ctx.StaminaReducer)
         {
             SetSubState(Factory.Dash());
             Debug.Log("InitDashState");

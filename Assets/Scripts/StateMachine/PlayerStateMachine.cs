@@ -7,6 +7,11 @@ public class PlayerStateMachine : MonoBehaviour
     private float _gravity = -9.8f;
     private float _groundedGravity = -.05f;
 
+    // stamina
+    [SerializeField, Range(1,10)] private float _maxStamina = 5;
+    [SerializeField, Range(0, 10)] private float _staminaReducer = 1;
+    [SerializeField] private float _currentStamina = 0;
+
     // jumpin
     private bool _isJumping = false;
     private float _initialJumpVelocity;
@@ -23,6 +28,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     // dash
     private bool _isDashPressed = false;
+    private bool _isDashing = false;
     [SerializeField] private bool _canDash = false;
     [SerializeField, Range(5f, 100f)] private float _dashSpeed = 10f;
     [SerializeField, Range(0f, 1f)] private float _dashingTime = 1f;
@@ -39,11 +45,13 @@ public class PlayerStateMachine : MonoBehaviour
     private BaseState _currentState;
     private StateFactory _states;
 
-
     // Animation
     private Animator _animator;
 
     // Getters & setters
+    // Stamina
+    public float CurrentStamina { get { return _currentStamina; } set { _currentStamina = value; } }
+    public float StaminaReducer { get { return _staminaReducer; } }
     // Jump
     public bool IsJumping { get { return _isJumping; } }
     public float Gravity { get { return _gravity; } }
@@ -61,7 +69,8 @@ public class PlayerStateMachine : MonoBehaviour
     public Vector3 AppliedMoveVelocity { get { return _appliedMoveVelocity; } set { _appliedMoveVelocity = value; } }
     // Dash
     public bool IsDashPressed { get { return _isDashPressed; } }
-    public bool CanDash { get { return _canDash; } }
+    public bool IsDashing { get { return _isDashing; } set { _isDashing = value; } }
+    public bool CanDash { get { return _canDash; } set { _canDash = value; } }
     public float DashSpeed { get { return _dashSpeed; } }
     public float DashingTime { get { return _dashingTime; } }
     public float DashCooldownTimer { set { _dashCooldownTimer = value; } }
@@ -76,6 +85,7 @@ public class PlayerStateMachine : MonoBehaviour
     public void Initialize()
     {
         SetupJumpVariables();
+        _currentStamina = _maxStamina;
 
         _controller = GetComponent<CharacterController>();
         _cameraTransform = Camera.main.transform;
@@ -107,12 +117,26 @@ public class PlayerStateMachine : MonoBehaviour
         ApplyVelocityY();
         SetupJumpVariables(); // <-- must be disabled/commented
         CoolDownDash();
+        FillStamina();
+    }
+
+    void FillStamina()
+    {
+        if (!_isDashing && Controller.isGrounded && _currentStamina < _maxStamina)
+        {
+            _currentStamina += Time.deltaTime;
+        }
+    }
+
+    public void ReduceStamina()
+    {
+        _currentStamina -= _staminaReducer;
     }
 
     void CoolDownDash()
     {
         _dashCooldownTimer += Time.deltaTime;
-        if (_dashCooldownTimer >= _dashCooldown)
+        if (_dashCooldownTimer >= _dashCooldown && !_isDashPressed && _currentStamina >= _staminaReducer)
             _canDash = true;
         else
             _canDash = false;
@@ -123,6 +147,11 @@ public class PlayerStateMachine : MonoBehaviour
         float timeToApex = _maxJumpTime / 2;
         _gravity = (-2 * _maxJumpHeight) / Mathf.Pow(timeToApex, 2);
         _initialJumpVelocity = (2 * _maxJumpHeight) / timeToApex;
+    }
+
+    public void ApplyRotation()
+    {
+        _playerTransform.rotation = Quaternion.Euler(0, _cameraTransform.rotation.eulerAngles.y, 0);
     }
 
     public void ApplyVelocityY() => _controller.Move(_playerVelocity * Time.deltaTime);
