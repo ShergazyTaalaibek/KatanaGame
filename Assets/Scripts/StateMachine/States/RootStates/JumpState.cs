@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class JumpState : BaseState
 {
-    public JumpState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public JumpState(CharacterStateMachine currentContext, StateFactory stateFactory)
         : base(currentContext, stateFactory)
     {
         IsRootState = true;

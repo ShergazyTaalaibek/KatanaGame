@@ -75,7 +75,7 @@ public class MovePlayer : MonoBehaviour
         Vector3 move = new Vector3(_currentMovement.x, 0, _currentMovement.z);
         move = move.x * _cameraTransform.right.normalized + move.z * _cameraTransform.forward.normalized;
         move.y = 0f;
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        controller.Move(move.normalized * Time.deltaTime * playerSpeed);
     }
 
     private void ApplyGravity()

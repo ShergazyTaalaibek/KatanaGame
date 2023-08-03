@@ -1,16 +1,16 @@
 public abstract class BaseState
 {
     private bool _isRootState = false;
-    private PlayerStateMachine _ctx;
+    private CharacterStateMachine _ctx;
     private StateFactory _factory;
     private BaseState _currentSuperState;
     private BaseState _currentSubState;
 
     protected bool IsRootState { set { _isRootState = value; } }
-    protected PlayerStateMachine Ctx { get { return _ctx; } }
+    protected CharacterStateMachine Ctx { get { return _ctx; } }
     protected StateFactory Factory { get { return _factory; } }
 
-    public BaseState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public BaseState(CharacterStateMachine currentContext, StateFactory stateFactory)
     {
         _ctx = currentContext;
         _factory = stateFactory;

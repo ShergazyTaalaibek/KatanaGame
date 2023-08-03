@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class StateFactory
 {
-    PlayerStateMachine _context;
+    CharacterStateMachine _context;
 
-    public StateFactory(PlayerStateMachine currentContext)
+    public StateFactory(CharacterStateMachine currentContext)
     {
         _context = currentContext;
     }
@@ -27,6 +27,11 @@ public class StateFactory
     public BaseState Dash()
     {
         return new DashState(_context, this);
+    }
+
+    public BaseState Attack()
+    {
+        return new AttackState(_context, this);
     }
 
     public BaseState Death()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DeadState : BaseState
 {
-    public DeadState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public DeadState(CharacterStateMachine currentContext, StateFactory stateFactory)
         : base(currentContext, stateFactory)
     {
         IsRootState = true;

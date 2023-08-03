@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DashState : BaseState
 {
-    public DashState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public DashState(CharacterStateMachine currentContext, StateFactory stateFactory)
         : base(currentContext, stateFactory) { }
 
     private float timer = 0;
@@ -20,7 +20,7 @@ public class DashState : BaseState
 
     public override void UpdateState()
     {
-        if (timer >= Ctx.DashingTime || Ctx.IsJumping)
+        if (timer >= Ctx.DashingDuration || Ctx.IsJumping)
         {
             CheckSwitchState();
         }

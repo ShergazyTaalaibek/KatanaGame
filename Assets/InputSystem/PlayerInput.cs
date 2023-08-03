@@ -55,7 +55,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Slash"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""797f544b-2b52-4f4f-aee1-8027bdfeb58f"",
                     ""expectedControlType"": ""Button"",
@@ -226,7 +226,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Slash"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -237,7 +237,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Slash"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -299,7 +299,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerControlls_Move = m_PlayerControlls.FindAction("Move", throwIfNotFound: true);
         m_PlayerControlls_Jump = m_PlayerControlls.FindAction("Jump", throwIfNotFound: true);
         m_PlayerControlls_Dash = m_PlayerControlls.FindAction("Dash", throwIfNotFound: true);
-        m_PlayerControlls_Slash = m_PlayerControlls.FindAction("Slash", throwIfNotFound: true);
+        m_PlayerControlls_Attack = m_PlayerControlls.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -364,7 +364,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControlls_Move;
     private readonly InputAction m_PlayerControlls_Jump;
     private readonly InputAction m_PlayerControlls_Dash;
-    private readonly InputAction m_PlayerControlls_Slash;
+    private readonly InputAction m_PlayerControlls_Attack;
     public struct PlayerControllsActions
     {
         private @PlayerInput m_Wrapper;
@@ -372,7 +372,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerControlls_Move;
         public InputAction @Jump => m_Wrapper.m_PlayerControlls_Jump;
         public InputAction @Dash => m_Wrapper.m_PlayerControlls_Dash;
-        public InputAction @Slash => m_Wrapper.m_PlayerControlls_Slash;
+        public InputAction @Attack => m_Wrapper.m_PlayerControlls_Attack;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControlls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -391,9 +391,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @Slash.started += instance.OnSlash;
-            @Slash.performed += instance.OnSlash;
-            @Slash.canceled += instance.OnSlash;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         private void UnregisterCallbacks(IPlayerControllsActions instance)
@@ -407,9 +407,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @Slash.started -= instance.OnSlash;
-            @Slash.performed -= instance.OnSlash;
-            @Slash.canceled -= instance.OnSlash;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         public void RemoveCallbacks(IPlayerControllsActions instance)
@@ -468,6 +468,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnSlash(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

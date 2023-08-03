@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GroundedState : BaseState
 {
-    public GroundedState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public GroundedState(CharacterStateMachine currentContext, StateFactory stateFactory)
         : base (currentContext, stateFactory)
     {
         IsRootState = true;
@@ -43,6 +43,10 @@ public class GroundedState : BaseState
         {
             SetSubState(Factory.Dash());
             Debug.Log("InitDashState");
+        }
+        else if (Ctx.IsAttackPressed && Ctx.CanAttack)
+        {
+            SwitchState(Factory.Attack());
         }
         else
         {

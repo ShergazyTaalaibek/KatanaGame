@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class IdleState : BaseState
 {
-    public IdleState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public IdleState(CharacterStateMachine currentContext, StateFactory stateFactory)
         : base(currentContext, stateFactory) { }
 
     public override void EnterState()
@@ -13,6 +13,7 @@ public class IdleState : BaseState
     public override void UpdateState()
     {
         CheckSwitchState();
+        Ctx.ApplyRotation();
     }
 
     public override void ExitState()
@@ -25,6 +26,10 @@ public class IdleState : BaseState
         if (Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Walk());
+        }
+        else if (Ctx.IsAttackPressed && Ctx.CanAttack)
+        {
+            SwitchState(Factory.Attack());
         }
     }
 

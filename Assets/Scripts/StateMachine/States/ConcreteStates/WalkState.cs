@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WalkState : BaseState
 {
-    public WalkState(PlayerStateMachine currentContext, StateFactory stateFactory)
+    public WalkState(CharacterStateMachine currentContext, StateFactory stateFactory)
         : base(currentContext, stateFactory) { }
 
     public override void EnterState()
@@ -14,6 +14,7 @@ public class WalkState : BaseState
     {
         CheckSwitchState();
         HandleMovement();
+        Ctx.ApplyRotation();
     }
 
     public override void ExitState() { }
@@ -28,12 +29,16 @@ public class WalkState : BaseState
         {
             SwitchState(Factory.Dash());
         }
+        else if (Ctx.IsAttackPressed && Ctx.CanAttack)
+        {
+            SwitchState(Factory.Attack());
+        }
     }
 
     void HandleMovement()
     {
         Vector3 move = new Vector3(Ctx.CurrentMovementX, 0, Ctx.CurrentMovementZ);
-        move = move.x * Ctx.CameraTransform.right.normalized + move.z * Ctx.CameraTransform.forward.normalized;
+        move = move.x * Ctx.CharacterTransform.right.normalized + move.z * Ctx.CharacterTransform.forward.normalized;
         move.y = 0f;
         Ctx.Controller.Move(move * Time.deltaTime * Ctx.MoveingSpeed);
         Ctx.AppliedMoveVelocity = move;
