@@ -54,9 +54,6 @@ public class CharacterStateMachine : MonoBehaviour
     private BaseState _currentState;
     private StateFactory _states;
 
-    // Animation
-    private PlayerAnimator _walkAnimation;
-
     // Getters & setters
     // Stamina
     public float CurrentStamina { get { return _currentStamina; } set { _currentStamina = value; } }
@@ -123,10 +120,6 @@ public class CharacterStateMachine : MonoBehaviour
 
         _playerInput.PlayerControlls.Attack.started += OnAttackInput;
         _playerInput.PlayerControlls.Attack.canceled += OnAttackInput;
-
-        // Animation
-        _walkAnimation = GetComponent<PlayerAnimator>();
-        _walkAnimation.Initialize();
     }
 
     private void Update()
@@ -137,16 +130,12 @@ public class CharacterStateMachine : MonoBehaviour
         CoolDownDash();
         CoolDownAttack();
         FillStamina();
-        _walkAnimation.DoWalkAnimation();
-        _walkAnimation.DoJumpAnim();
     }
 
     void FillStamina()
     {
         if (!_isDashing && Controller.isGrounded && _currentStamina < _maxStamina)
-        {
             _currentStamina += Time.deltaTime;
-        }
     }
 
     public void ReduceStamina()

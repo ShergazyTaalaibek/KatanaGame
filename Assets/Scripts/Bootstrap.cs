@@ -5,11 +5,13 @@ using UnityEngine;
 public class Bootstrap : MonoBehaviour
 {
     [SerializeField] private CharacterStateMachine _playerStateMachine;
-    [SerializeField] private MovePlayer _movePlayer;
+    [SerializeField] private PlayerAnimator _playerAnimator;
+    [SerializeField] private HeadIKAnim _playerHeadIKAnim;
 
     private void Awake()
     {
         _playerStateMachine?.Initialize();
-        _movePlayer?.Initialize();
+        _playerAnimator.Initialize();
+        _playerHeadIKAnim?.Initialize();
     }
 }
