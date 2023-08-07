@@ -4,28 +4,30 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
+    [SerializeField] private Animator _anim;
     private CharacterStateMachine _character;
-    private int XAxis, YAxis,JumpAnim, FallAnim, LandAnim, DashingAnim, AttackAnim;
-    private float XVelocity = 0;
-    private float YVelocity = 0;
+    private int _XAxis, _YAxis, _JumpAnim, _FallAnim, _LandAnim, _DashingAnim, _AttackAnim, _RunAnim;
+    private float _XVelocity = 0;
+    private float _YVelocity = 0;
 
     public void Initialize()
     {
         _character = GetComponent<CharacterStateMachine>();
-        XAxis = Animator.StringToHash("XAxis");
-        YAxis = Animator.StringToHash("YAxis");
-        DashingAnim = Animator.StringToHash("IsDashing");
-        JumpAnim = Animator.StringToHash("IsJumping");
-        FallAnim = Animator.StringToHash("IsFalling");
-        LandAnim = Animator.StringToHash("IsLanded");
-        AttackAnim = Animator.StringToHash("IsAttack");
+        _XAxis = Animator.StringToHash("XAxis");
+        _YAxis = Animator.StringToHash("YAxis");
+        _DashingAnim = Animator.StringToHash("IsDashing");
+        _JumpAnim = Animator.StringToHash("IsJumping");
+        _FallAnim = Animator.StringToHash("IsFalling");
+        _LandAnim = Animator.StringToHash("IsLanded");
+        _AttackAnim = Animator.StringToHash("IsAttack");
+        _RunAnim = Animator.StringToHash("IsRunning");
     }
 
     private void Update()
     {
         DoWalkAnim();
         DoDashAnim();
+        DoRunAnim();
         DoJumpAnim();
         DoFallAnim();
         DoLandAnim();
@@ -35,19 +37,20 @@ public class PlayerAnimator : MonoBehaviour
     private void DoWalkAnim()
     {
         LerpVelocityies();
-        anim.SetFloat(XAxis, XVelocity);
-        anim.SetFloat(YAxis, YVelocity);
+        _anim.SetFloat(_XAxis, _XVelocity);
+        _anim.SetFloat(_YAxis, _YVelocity);
     }
 
     private void LerpVelocityies()
     {
-        XVelocity = Mathf.Lerp(XVelocity, _character.CurrentMovementInputX, .05f);
-        YVelocity = Mathf.Lerp(YVelocity, _character.CurrentMovementInputY, .05f);
+        _XVelocity = Mathf.Lerp(_XVelocity, _character.CurrentMovementInputX, .05f);
+        _YVelocity = Mathf.Lerp(_YVelocity, _character.CurrentMovementInputY, .05f);
     }
 
-    private void DoJumpAnim() => anim.SetBool(JumpAnim, _character.IsJumping);
-    private void DoDashAnim() => anim.SetBool(DashingAnim, _character.IsDashing);
-    private void DoAttackAnim() => anim.SetBool(AttackAnim, _character.IsAttacking);
-    private void DoFallAnim() => anim.SetBool(FallAnim, !_character.Controller.isGrounded);
-    private void DoLandAnim() => anim.SetBool(LandAnim, _character.Controller.isGrounded);
+    private void DoRunAnim() => _anim.SetBool(_RunAnim, _character.IsRunning);
+    private void DoJumpAnim() => _anim.SetBool(_JumpAnim, _character.IsJumping);
+    private void DoDashAnim() => _anim.SetBool(_DashingAnim, _character.IsDashing);
+    private void DoAttackAnim() => _anim.SetBool(_AttackAnim, _character.IsAttacking);
+    private void DoFallAnim() => _anim.SetBool(_FallAnim, !_character.Controller.isGrounded);
+    private void DoLandAnim() => _anim.SetBool(_LandAnim, _character.Controller.isGrounded);
 }

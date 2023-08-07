@@ -6,14 +6,15 @@ public class HeadIKAnim : MonoBehaviour
 {
     private Animator animator;
 
-    [SerializeField] private bool _ikActive = false;
+    private bool _ikActive = true;
     [SerializeField] private Transform _lookObj = null;
-    private int _headLayer;
 
     public void Initialize()
     {
         animator = GetComponent<Animator>();
     }
+
+    public void SetHeadIK(bool b) => _ikActive = b;
 
     private void OnAnimatorIK()
     {
