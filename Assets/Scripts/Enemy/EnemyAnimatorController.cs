@@ -4,7 +4,7 @@ public class EnemyAnimatorController : MonoBehaviour
 {
     private Animator _anim;
     private EnemyStateMachine _character;
-    private int _XAxis, _YAxis, _JumpAnim, _FallAnim, _LandAnim, _AttackAnim;
+    private int _XAxis, _YAxis, _JumpAnim, _FallAnim, _LandAnim, _AttackAnim, _AttackSpeed;
     private float _XVelocity = 0;
     private float _YVelocity = 0;
 
@@ -19,6 +19,7 @@ public class EnemyAnimatorController : MonoBehaviour
         _FallAnim = Animator.StringToHash("IsFalling");
         _LandAnim = Animator.StringToHash("IsLanded");
         _AttackAnim = Animator.StringToHash("IsAttack");
+        _AttackSpeed = Animator.StringToHash("AttackSpeed");
     }
 
     private void Update()
@@ -28,6 +29,7 @@ public class EnemyAnimatorController : MonoBehaviour
         DoFallAnim();
         DoLandAnim();
         DoAttackAnim();
+        SetAttackAnimSpeed();
     }
 
     private void DoWalkAnim()
@@ -44,7 +46,12 @@ public class EnemyAnimatorController : MonoBehaviour
     }
 
     private void DoJumpAnim() => _anim.SetBool(_JumpAnim, _character.IsJumping);
-    private void DoAttackAnim() => _anim.SetBool(_AttackAnim, _character.IsAttacking);
     private void DoFallAnim() => _anim.SetBool(_FallAnim, !_character.Controller.isGrounded);
     private void DoLandAnim() => _anim.SetBool(_LandAnim, _character.Controller.isGrounded);
+    private void DoAttackAnim() => _anim.SetBool(_AttackAnim, _character.IsAttacking);
+
+    private void SetAttackAnimSpeed()
+    {
+        _anim.SetFloat(_AttackSpeed, _character.AttackSpeed);
+    }
 }

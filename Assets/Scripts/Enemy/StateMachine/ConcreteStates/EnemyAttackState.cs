@@ -8,7 +8,7 @@ public class EnemyAttackState : EnemyBaseState
     public override void EnterState()
     {
         Ctx.AttackDurationTimer = 0;
-        Debug.Log("Enemy Attack");
+        Ctx.SetAttackSpeed();
     }
 
     public override void UpdateState()
@@ -16,7 +16,10 @@ public class EnemyAttackState : EnemyBaseState
         CheckSwitchState();
     }
 
-    public override void ExitState() { }
+    public override void ExitState()
+    {
+        
+    }
 
     public override void CheckSwitchState()
     {
@@ -24,6 +27,7 @@ public class EnemyAttackState : EnemyBaseState
         {
             Ctx.IsAttacking = false;
             SwitchState(Factory.Idle());
+            Ctx.EnemyCombatSystem.IterateChain();
         }
     }
 

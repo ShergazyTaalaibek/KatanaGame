@@ -39,8 +39,10 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] private bool _isAttacking = false;
     [SerializeField] private bool _canAttack = false;
     [SerializeField, Range(0f, 5f)] private float _attackDuration = 1f;
+    [SerializeField] private float _attackSpeed;
     private float _attackDurationTimer = 0;
     [SerializeField] private WeaponCollision _swordCollision;
+    private EnemyCombatSystem _enemyCombatSystem;
 
     // death
     [SerializeField] private bool _isDead = false;
@@ -69,6 +71,8 @@ public class EnemyStateMachine : MonoBehaviour
     public bool CanAttack { get { return _canAttack; } set { _canAttack = value; } }
     public float AttackDuration { get { return _attackDuration; } set { _attackDuration = value; } }
     public float AttackDurationTimer { get { return _attackDurationTimer; } set { _attackDurationTimer = value; } }
+    public float AttackSpeed { get { return _attackSpeed; } }
+    public EnemyCombatSystem EnemyCombatSystem { get { return _enemyCombatSystem; } }
 
     // Others
     public CharacterController Controller { get { return _characterController; } }
@@ -89,6 +93,8 @@ public class EnemyStateMachine : MonoBehaviour
         _states = new EnemyStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
+
+        _enemyCombatSystem = GetComponent<EnemyCombatSystem>();
     }
 
     private void Update()
@@ -127,6 +133,11 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     public void ApplyVelocityY() => _characterController.Move(_enemyVelocity * Time.deltaTime);
+
+    public void SetAttackSpeed()
+    {
+        _attackSpeed = _enemyCombatSystem.GetAnimationLength() / _attackDuration;
+    }
 
     private void OnTriggerEnter(Collider other)
     {

@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animatorOV: {fileID: 22100000, guid: 7047547e82fab43059551a72de85b9d1, type: 2}
   duration: 1
+  _animationClip: {fileID: -203655887218126122, guid: 4669ae91074fa497dac7311f5e438105,
+    type: 3}

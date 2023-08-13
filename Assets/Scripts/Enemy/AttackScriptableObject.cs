@@ -5,4 +5,5 @@ public class AttackScriptableObject : ScriptableObject
 {
     public AnimatorOverrideController _animatorOV;
     public float duration = 1;
+    public AnimationClip _animationClip;
 }
