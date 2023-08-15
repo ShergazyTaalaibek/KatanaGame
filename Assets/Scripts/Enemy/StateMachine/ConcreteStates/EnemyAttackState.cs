@@ -9,6 +9,7 @@ public class EnemyAttackState : EnemyBaseState
     {
         Ctx.AttackDurationTimer = 0;
         Ctx.SetAttackSpeed();
+        Ctx.StartAttackCoroutine();
     }
 
     public override void UpdateState()
@@ -18,14 +19,13 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void ExitState()
     {
-        
+
     }
 
     public override void CheckSwitchState()
     {
         if (Ctx.AttackDurationTimer >= Ctx.AttackDuration)
         {
-            Ctx.IsAttacking = false;
             SwitchState(Factory.Idle());
             Ctx.EnemyCombatSystem.IterateChain();
         }

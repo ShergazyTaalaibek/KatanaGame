@@ -51,6 +51,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     // death
     [SerializeField] private bool _isDead = false;
+    [SerializeField] private LayerMask _hurtLayerMask;
 
     // animation
     private HeadIKAnim _playerHeadIKAnim;
@@ -249,4 +250,12 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnEnable() => _playerInput.PlayerControlls.Enable();
     private void OnDisable() => _playerInput.PlayerControlls.Disable();
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if ((_hurtLayerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        {
+            Debug.Log("Player hitted");
+        }
+    }
 }

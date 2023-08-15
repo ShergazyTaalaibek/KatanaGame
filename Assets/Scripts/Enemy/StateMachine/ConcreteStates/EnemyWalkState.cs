@@ -7,7 +7,7 @@ public class EnemyWalkState : EnemyBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Enemy Walk");
+
     }
 
     public override void UpdateState()

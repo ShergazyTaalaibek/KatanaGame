@@ -11,7 +11,6 @@ public class EnemyGroundedState : EnemyBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Enemy grounded");
         Ctx.EnemyVelocityY = Ctx.GroundedGravity;
         Ctx.AppliedMoveVelocity = Vector3.zero;
     }
@@ -29,6 +28,10 @@ public class EnemyGroundedState : EnemyBaseState
         if (Ctx.IsJumping && Ctx.Controller.isGrounded)
         {
             SwitchState(Factory.Jump());
+        }
+        else if (Ctx.IsCooldown)
+        {
+            SwitchState(Factory.Cooldown());
         }
     }
 

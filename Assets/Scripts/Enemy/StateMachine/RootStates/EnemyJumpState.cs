@@ -11,7 +11,6 @@ public class EnemyJumpState : EnemyBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Enemy Jump");
         HandleJump();
     }
 

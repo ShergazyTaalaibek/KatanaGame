@@ -12,9 +12,12 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] private Transform _lookAtTarget;
     [SerializeField] private Transform _headTransform;
     [SerializeField] private float _rotatingSpeed;
-    [SerializeField] private LayerMask _HurtLayerMask;
+    [SerializeField] private LayerMask _hurtLayerMask;
     private Transform _transform;
     private CharacterController _characterController;
+    [SerializeField] private bool _isCooldown = false;
+    [SerializeField] private float _cooldownDuration = 5;
+    private float _cooldownTimer = 0;
 
     [Header("Movement")]
     [SerializeField] private bool _isMoving;
@@ -37,7 +40,6 @@ public class EnemyStateMachine : MonoBehaviour
 
     [Header("Attack")]
     [SerializeField] private bool _isAttacking = false;
-    [SerializeField] private bool _canAttack = false;
     [SerializeField, Range(0f, 5f)] private float _attackDuration = 1f;
     [SerializeField] private float _attackSpeed;
     private float _attackDurationTimer = 0;
@@ -54,6 +56,7 @@ public class EnemyStateMachine : MonoBehaviour
     // State Machine
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public Transform EnemyTransform { get { return _transform; } }
+    public bool IsCooldown { get { return _isCooldown; } set { _isCooldown = value; } }
     // Movement
     public bool IsMoving { get { return _isMoving; } }
     public float MovingSpeed { get { return _movingSpeed; } }
@@ -68,7 +71,6 @@ public class EnemyStateMachine : MonoBehaviour
     public float GroundedGravity { get { return _groundedGravity; } }
     // Attack
     public bool IsAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
-    public bool CanAttack { get { return _canAttack; } set { _canAttack = value; } }
     public float AttackDuration { get { return _attackDuration; } set { _attackDuration = value; } }
     public float AttackDurationTimer { get { return _attackDurationTimer; } set { _attackDurationTimer = value; } }
     public float AttackSpeed { get { return _attackSpeed; } }
@@ -76,6 +78,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     // Others
     public CharacterController Controller { get { return _characterController; } }
+    public float CooldownTimer { get { return _cooldownTimer; } set { _cooldownTimer = value; } }
+    public float CooldownDuration { get { return _cooldownDuration; } }
 
     public void Initialize()
     {
@@ -102,10 +106,19 @@ public class EnemyStateMachine : MonoBehaviour
         _currentState.UpdateStates();
         ApplyVelocityY();
         SetMovementInput();
-        AttackTimer();
+        CountAttackTimer();
+        CountCooldownTimer();
     }
 
-    private void AttackTimer()
+    private void CountCooldownTimer()
+    {
+        if (_isCooldown)
+        {
+            _cooldownTimer += Time.deltaTime;
+        }
+    }
+
+    private void CountAttackTimer()
     {
         _attackDurationTimer += Time.deltaTime;
     }
@@ -136,14 +149,25 @@ public class EnemyStateMachine : MonoBehaviour
 
     public void SetAttackSpeed()
     {
-        _attackSpeed = _enemyCombatSystem.GetAnimationLength() / _attackDuration;
+        _attackSpeed = (_enemyCombatSystem.GetAnimationLength() / _attackDuration) - .1f;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((_HurtLayerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        if ((_hurtLayerMask.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Sword hit");
         }
+    }
+
+    public void StartAttackCoroutine()
+    {
+        StartCoroutine(HoldAttackTrigger());
+    }
+
+    IEnumerator HoldAttackTrigger()
+    {
+        yield return new WaitForEndOfFrame();
+        _isAttacking = false;
     }
 }

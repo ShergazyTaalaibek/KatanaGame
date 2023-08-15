@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Attack 1
   m_EditorClassIdentifier: 
   _animatorOV: {fileID: 22100000, guid: beacb391be4e641bcaa5cd6b3b474540, type: 2}
-  duration: 1
-  _animationClip: {fileID: -203655887218126122, guid: 4795262344a9f4b2eaaa585e6b4c45ae,
+  duration: 1.5
+  _animationClip: {fileID: -203655887218126122, guid: a17f78bbbcd0e493c8883aa6e47a5aba,
     type: 3}
