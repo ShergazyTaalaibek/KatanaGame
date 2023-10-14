@@ -7,7 +7,7 @@ public class Bootstrap : MonoBehaviour
     [Header("Player")]
     [SerializeField] private PlayerStateMachine _playerStateMachine;
     [SerializeField] private EnemyStateMachine _enemyController;
-    [SerializeField] private PlayerAnimatorController _playerAnimator;
+    [SerializeField] private HeroAnimatorController _playerAnimator;
     [SerializeField] private EnemyAnimatorController _enemyAnimator;
 
     private void Awake()

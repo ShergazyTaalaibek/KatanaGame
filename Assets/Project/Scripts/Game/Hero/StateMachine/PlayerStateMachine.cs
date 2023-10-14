@@ -8,16 +8,16 @@ public class PlayerStateMachine : MonoBehaviour
     private float _groundedGravity = -.05f;
 
     // stamina
-    [SerializeField, Range(1, 10)] private float _maxStamina = 5;
-    [SerializeField, Range(0, 10)] private float _staminaReducer = 1;
-    [SerializeField] private float _currentStamina = 0;
+    private float _maxStamina = 5;
+    private float _staminaReducer = 1;
+    private float _currentStamina = 0;
 
     // jumping
     private bool _isJumpingPressed = false;
     private bool _isJumping = false;
     private float _initialJumpVelocity;
-    [SerializeField, Range(1f, 5f)] private float _maxJumpHeight = 1.0f;
-    [SerializeField, Range(.1f, 2f)] private float _maxJumpTime = .5f;
+    private float _maxJumpHeight = 1.0f;
+    private float _maxJumpTime = .5f;
 
     // moving
     private bool _isMovementPressed = false;
@@ -28,30 +28,30 @@ public class PlayerStateMachine : MonoBehaviour
     private Vector3 _currentMovement;
     private Vector3 _appliedMoveVelocity;
     private Vector3 _playerVelocity;
-    [SerializeField] private float _movingSpeed = 2.0f;
-    [SerializeField] private float _runningSpeed = 4.0f;
+    private float _movingSpeed = 2.0f;
+    private float _runningSpeed = 4.0f;
 
     // dash
     private bool _isDashPressed = false;
     private bool _isDashing = false;
-    [SerializeField] private bool _canDash = false;
-    [SerializeField, Range(5f, 100f)] private float _dashSpeed = 10f;
-    [SerializeField, Range(0f, 1f)] private float _dashingDuration = 1f;
-    [SerializeField, Range(0f, 10f)] private float _dashCooldown = 1f;
+    private bool _canDash = false;
+    private float _dashSpeed = 10f;
+    private float _dashingDuration = 1f;
+    private float _dashCooldown = 1f;
     private float _dashCooldownTimer = 0;
 
     // attack
     private bool _isAttackPressed = false;
     private bool _isAttacking = false;
-    [SerializeField] private bool _canAttack = false;
-    [SerializeField, Range(0f, 1f)] private float _attackDuration = 1f;
-    [SerializeField, Range(0f, 10f)] private float _attackCooldown = 1f;
+    private bool _canAttack = false;
+    private float _attackDuration = 1f;
+    private float _attackCooldown = 1f;
     private float _attackCooldownTimer = 0;
-    [SerializeField] private WeaponCollision _swordCollision;
+    private WeaponCollision _swordCollision;
 
     // death
     [SerializeField] private bool _isDead = false;
-    [SerializeField] private LayerMask _hurtLayerMask;
+    private LayerMask _hurtLayerMask;
 
     // animation
     private HeadIKAnim _playerHeadIKAnim;
@@ -60,12 +60,12 @@ public class PlayerStateMachine : MonoBehaviour
     private CharacterController _controller;
     private Transform _playerTransform;
     [SerializeField] private Transform _headTransform;
-    [SerializeField] private Transform _lookAtTarget;
-    [SerializeField] private float _rotatingSpeed = 2;
-    [SerializeField] private float _modelRotatingSpeed = 1000;
-    [SerializeField] private HeadIKAnim _headIKAnim;
-    [SerializeField] private Transform _model;
-    [SerializeField] private StaminaSlider _staminaSlider;
+    private Transform _lookAtTarget;
+    private float _rotatingSpeed = 2;
+    private float _modelRotatingSpeed = 1000;
+    private HeadIKAnim _headIKAnim;
+    private Transform _model;
+    private StaminaSlider _staminaSlider;
 
     // State Machine
     private PlayerBaseState _currentState;

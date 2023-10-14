@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAnimatorController : MonoBehaviour
+public class HeroAnimatorController : MonoBehaviour
 {
     private Animator _anim;
     private PlayerStateMachine _character;
